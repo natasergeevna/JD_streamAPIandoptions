@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,19 +21,19 @@ public class EmployeeService {
         return Arrays.stream(employees)
                 .filter(e -> e.getDepartment() == department)
                 .max(Comparator.comparingDouble(e -> e.getSalary()))
-                .get();
+                .orElseThrow(() -> new IllegalArgumentException("Нет такого департамента!"));
     }
     public Employee minSalaryEmp(int department) {
         return Arrays.stream(employees)
                 .filter(e -> e.getDepartment() == department)
                 .min(Comparator.comparingDouble(e -> e.getSalary()))
-                .get();
+                .orElseThrow(() -> new IllegalArgumentException("Нет такого департамента!"));
     }
 
-    public List<Employee> printAll() {
+    public Map<Integer, List<Employee>> printAll() {
         return Arrays.stream(employees)
-                .sorted(Comparator.comparingInt(e -> e.getDepartment()))
-                .collect(Collectors.toList());
+                .sorted(Comparator.comparingInt(e->e.getDepartment()))
+                .collect(Collectors.groupingBy(Employee::getDepartment));
     }
 
     public List<Employee> printEmpDepartment(int id) {
@@ -41,3 +42,4 @@ public class EmployeeService {
                 .collect(Collectors.toList());
     }
 }
+//.sorted(Comparator.comparingInt(e -> e.getDepartment()))

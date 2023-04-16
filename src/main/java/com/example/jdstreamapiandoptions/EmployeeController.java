@@ -5,8 +5,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/departments")
 public class EmployeeController {
@@ -32,7 +30,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/all")
-    public List<Employee> allEmp(@RequestParam(value = "departmentId", required = false) Integer id) {
+    public Object allEmp(@RequestParam(value = "departmentId", required = false) Integer id) {
         if (id == null)
             return employeeService.printAll();
         else
